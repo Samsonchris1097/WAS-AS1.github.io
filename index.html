@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex Chen - Reflective Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #4a5568;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9));
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+            margin-top: 0;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero .tagline {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero .welcome {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        .main-content {
+            background: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        .section {
+            padding: 80px 0;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: #2d3748;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .profile-image {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            margin: 0 auto;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* Project Cards */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, shadow 0.3s ease;
+            border-left: 4px solid #667eea;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-card h3 {
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .project-meta {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .project-description {
+            margin-bottom: 1.5rem;
+            color: #4a5568;
+        }
+
+        .reflection {
+            background: #f7fafc;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 3px solid #667eea;
+            font-style: italic;
+            color: #2d3748;
+        }
+
+        /* Skills Section */
+        .skills-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .skills-category h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #2d3748;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .skill-tag {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Goals Section */
+        .goals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .goal-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .goal-card h3 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+
+        /* Contact Section */
+        .contact-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact-item a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .skills-container {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* Mobile Navigation Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">Alex Chen</div>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" onclick="showSection('home')">Home</a></li>
+                <li><a href="#about" onclick="showSection('about')">About</a></li>
+                <li><a href="#goals" onclick="showSection('goals')">Goals</a></li>
+                <li><a href="#projects" onclick="showSection('projects')">Projects</a></li>
+                <li><a href="#skills" onclick="showSection('skills')">Skills</a></li>
+                <li><a href="#contact" onclick="showSection('contact')">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <div class="container">
+                    <h1>Alex Chen</h1>
+                    <p class="tagline">Computer Science Student | Data Enthusiast | Future Tech Leader</p>
+                    <p class="welcome">Welcome to my reflective portfolio - a documentation of my academic journey, personal growth, and professional development through university and beyond.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="container">
+                <h2>About Me</h2>
+                <div class="about-content">
+                    <div class="profile-image">AC</div>
+                    <div class="about-text">
+                        <p>I'm a third-year Computer Science student at State University with a passion for data science and artificial intelligence. My academic journey has been focused on understanding how technology can solve real-world problems and improve human experiences.</p>
+                        
+                        <p>Throughout my studies, I've discovered my love for the intersection of technology and human behavior, particularly in how data-driven insights can inform better decision-making processes. I'm constantly seeking opportunities to apply theoretical knowledge to practical challenges.</p>
+                        
+                        <p>Beyond academics, I enjoy contributing to open-source projects, participating in hackathons, and mentoring fellow students. I believe in the power of collaborative learning and the importance of giving back to the tech community.</p>
+                        
+                        <p>My goal is to pursue a career in machine learning engineering, where I can contribute to developing ethical AI solutions that make a positive impact on society.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Goals Section -->
+        <section id="goals" class="section">
+            <div class="container">
+                <h2>Goals & Growth</h2>
+                <div class="goals-grid">
+                    <div class="goal-card">
+                        <h3>Academic Excellence</h3>
+                        <p>Maintain a GPA above 3.7 while pursuing advanced coursework in machine learning and data science. Complete my capstone project on AI ethics with distinction.</p>
+                    </div>
+                    <div class="goal-card">
+                        <h3>Professional Development</h3>
+                        <p>Secure a summer internship at a leading tech company, build a strong professional network, and develop industry-relevant skills through hands-on projects.</p>
+                    </div>
+                    <div class="goal-card">
+                        <h3>Technical Mastery</h3>
+                        <p>Become proficient in advanced machine learning frameworks, contribute to open-source projects, and develop a portfolio of impactful technical projects.</p>
+                    </div>
+                    <div class="goal-card">
+                        <h3>Personal Growth</h3>
+                        <p>Develop stronger leadership and communication skills, build resilience in facing technical challenges, and maintain a healthy work-life balance.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section">
+            <div class="container">
+                <h2>Projects & Reflections</h2>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <h3>AI-Powered Recommendation System</h3>
+                        <div class="project-meta">Capstone Project | Advanced Machine Learning</div>
+                        <div class="project-description">
+                            Developed a machine learning recommendation system using collaborative filtering and neural networks to suggest personalized content for an e-commerce platform.
+                        </div>
+                        <div class="reflection">
+                            <strong>Reflection:</strong> This capstone project was the culmination of everything I've learned. It involved complex algorithm design and extensive data analysis. The biggest takeaway was understanding the iterative nature of research and development, and the importance of adapting to unexpected challenges. This project solidified my interest in pursuing a career in machine learning.
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <h3>Data Analysis Dashboard</h3>
+                        <div class="project-meta">Year 2 | Statistics & Data Visualization</div>
+                        <div class="project-description">
+                            Created an interactive web dashboard using Python, Flask, and D3.js to visualize university enrollment trends and academic performance metrics.
+                        </div>
+                        <div class="reflection">
+                            <strong>Reflection:</strong> This project was my first dive into full-stack development combined with data science. I learned the importance of user experience in data presentation and how to make complex information accessible. The challenge of integrating frontend and backend technologies taught me valuable lessons about system architecture.
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <h3>Ethics in AI Research Paper</h3>
+                        <div class="project-meta">Year 3 | Technology Ethics Course</div>
+                        <div class="project-description">
+                            Researched and wrote a comprehensive analysis on the ethical implications of AI in healthcare, focusing on bias, privacy, and algorithmic transparency.
+                        </div>
+                        <div class="reflection">
+                            <strong>Reflection:</strong> Writing this paper pushed my critical thinking and research skills to new levels. I delved deep into ethical dilemmas in AI, learning to synthesize complex information and construct well-reasoned arguments. It broadened my perspective on the societal impact of technology and reinforced my commitment to ethical AI development.
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <h3>Marketing Internship Experience</h3>
+                        <div class="project-meta">Summer 2023 | TechStart Solutions</div>
+                        <div class="project-description">
+                            Worked as a marketing assistant, managing social media campaigns, analyzing engagement metrics, and creating content for technology products.
+                        </div>
+                        <div class="reflection">
+                            <strong>Reflection:</strong> My internship provided invaluable real-world experience outside my technical comfort zone. I learned about audience targeting, content strategy, and the business side of technology. This experience enhanced my communication skills and taught me how to present technical concepts to non-technical audiences.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section">
+            <div class="container">
+                <h2>Skills Developed</h2>
+                <div class="skills-container">
+                    <div class="skills-category">
+                        <h3>Technical Skills</h3>
+                        <div class="skills-list">
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">SQL</span>
+                            <span class="skill-tag">Machine Learning</span>
+                            <span class="skill-tag">TensorFlow</span>
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">Node.js</span>
+                            <span class="skill-tag">Git</span>
+                            <span class="skill-tag">Data Visualization</span>
+                            <span class="skill-tag">Statistical Analysis</span>
+                        </div>
+                    </div>
+                    <div class="skills-category">
+                        <h3>Soft Skills</h3>
+                        <div class="skills-list">
+                            <span class="skill-tag">Critical Thinking</span>
+                            <span class="skill-tag">Problem Solving</span>
+                            <span class="skill-tag">Communication</span>
+                            <span class="skill-tag">Teamwork</span>
+                            <span class="skill-tag">Leadership</span>
+                            <span class="skill-tag">Adaptability</span>
+                            <span class="skill-tag">Time Management</span>
+                            <span class="skill-tag">Research</span>
+                            <span class="skill-tag">Presentation</span>
+                            <span class="skill-tag">Mentoring</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="container">
+                <h2>Get In Touch</h2>
+                <div class="contact-content">
+                    <p>I'm always excited to connect with fellow students, professionals, and anyone interested in technology and data science. Feel free to reach out for collaboration opportunities, mentorship, or just to chat about tech!</p>
+                    
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <strong>Email</strong>
+                            <a href="mailto:alex.chen@email.com">alex.chen@email.com</a>
+                        </div>
+                        <div class="contact-item">
+                            <strong>LinkedIn</strong>
+                            <a href="https://linkedin.com/in/alexchen" target="_blank">linkedin.com/in/alexchen</a>
+                        </div>
+                        <div class="contact-item">
+                            <strong>GitHub</strong>
+                            <a href="https://github.com/alexchen" target="_blank">github.com/alexchen</a>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Show the selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Close mobile menu if open
+            document.getElementById('navLinks').classList.remove('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+            });
+        });
+
+        // Add some interactive hover effects
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
